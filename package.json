@@ -1,0 +1,38 @@
+{
+  "name": "dz6",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "bin": {
+    "dz6": "server.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "co-busboy": "^1.3.1",
+    "config": "^1.16.0",
+    "koa": "^1.1.1",
+    "koa-bodyparser": "^2.0.1",
+    "koa-favicon": "^1.2.0",
+    "koa-generic-session": "^1.9.2",
+    "koa-json": "^1.1.1",
+    "koa-logger": "^1.3.0",
+    "koa-router": "^5.2.3",
+    "koa-static": "^1.5.1",
+    "mongoose": "^4.2.3"
+  },
+  "devDependencies": {
+    "clarify": "^1.0.5",
+    "co-mocha": "^1.1.2",
+    "co-request": "^1.0.0",
+    "mocha": "^2.3.3",
+    "should": "^7.1.1",
+    "trace": "^2.0.1"
+  }
+}
