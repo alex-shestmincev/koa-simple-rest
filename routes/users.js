@@ -15,8 +15,14 @@ function* createUser(next){
     this.status = 400;
     this.body = 'User already exists';
   } else {
-    let user = yield User.create(userData);
-    this.body = user;
+    try{
+      let user = yield User.create(userData);
+      this.body = user;
+    } catch (e){
+      e.status = 400;
+      this.throw(e);
+    }
+
   }
 }
 

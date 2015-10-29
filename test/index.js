@@ -22,15 +22,17 @@ const validUser = {
   age: 25,
 };
 
+const invalidUser = {
+  displayName: 'alex',
+};
+
 describe('Users api', () => {
+  before(function* () {
+    yield (callback) => app.listen(config.port, callback);
+    yield User.remove({});
+  });
 
   describe('create User positive tests', function () {
-
-    before(function* () {
-      yield (callback) => app.listen(config.port, callback);
-      yield User.remove({});
-    });
-
     let user;
 
     it('should get empty users array without errors', function* () {
@@ -81,10 +83,41 @@ describe('Users api', () => {
       result.statusCode.should.equal(404);
     });
 
-    it('should not delete user after user is deleted', function* () {
+    it('should not delete user after user is deleted - 404', function* () {
       let result = yield request.del(url + '/users/' + user._id);
       result.statusCode.should.equal(404);
     });
+
+  });
+
+  describe('create User negative tests', function () {
+
+    let user;
+
+    it('should not create user, return errors', function* () {
+      let result = yield request.post(url + '/users/', {form: invalidUser});
+      result.should.be.html;
+      result.statusCode.should.equal(400);
+      result.body.should.equal('User validation failed');
+    });
+
+    it('should not create user, return errors in json format', function* () {
+      let result = yield request.post(url + '/users/', {json: invalidUser});
+      result.should.be.json;
+      result.statusCode.should.equal(400);
+      result.body.error.should.equal('User validation failed');
+    });
+
+    it('should not find user with 404', function* () {
+      let result = yield request.get(url + '/users/' + 123);
+      result.statusCode.should.equal(404);
+    });
+
+    it.only('should not delete user after user is deleted - 404', function* () {
+      let result = yield request.del(url + '/users/' + 123);
+      result.statusCode.should.equal(404);
+    });
+
 
   });
 
