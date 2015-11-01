@@ -5,6 +5,6 @@ module.exports = {
   root: process.cwd(),
   db:{
     host: 'localhost',
-    name: 'dz6_test'
+    name: 'dz7_test'
   }
 }

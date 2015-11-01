@@ -1,6 +1,7 @@
 'use strict';
 
 const User = require('../model/User');
+const mongoose = require('mongoose');
 
 function* createUser(next){
   const params = this.request.body;
@@ -17,7 +18,7 @@ function* createUser(next){
   } else {
     try{
       let user = yield User.create(userData);
-      this.body = user;
+      this.body = user.toObject();
     } catch (e){
       e.status = 400;
       this.throw(e);
@@ -27,38 +28,42 @@ function* createUser(next){
 }
 
 function* getUser(next){
-  let user = yield User.findOne(this.params.id);
-  if (user){
-    this.body = user;
-  } else {
-    this.status = 404;
-  }
+  this.body = this.userById.toObject();
 }
 
 function* getList(next){
-  let users = yield User.find();
+  let users = yield User.find().lean();
   this.body = users;
 }
 
 function* deleteUser(next){
-  let user = yield User.findOne(this.params.id);
-  if (user){
-    yield user.remove();
-    this.body = {status: 'deleted'};
-  } else {
-    this.status = 404;
-  }
+  yield this.userById.remove();
+  this.body = {status: 'deleted'};
 }
 
 module.exports = function(router){
+
+  router.param('userById', function*(id, next) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      this.throw(404);
+    }
+
+    this.userById = yield User.findById(id);
+
+    if (!this.userById) {
+      this.throw(404);
+    }
+
+    yield* next;
+  })
 
   router.post('/', createUser);
 
   router.get('/', getList);
 
-  router.get('/:id', getUser);
+  router.get('/:userById', getUser);
 
-  router.delete('/:id', deleteUser);
+  router.delete('/:userById', deleteUser);
 
   return router;
 }

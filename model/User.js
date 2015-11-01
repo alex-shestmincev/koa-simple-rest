@@ -1,6 +1,8 @@
 'use strict';
 
 const mongoose = require('./mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+
 
 const schema = new mongoose.Schema({
 
@@ -40,5 +42,9 @@ const schema = new mongoose.Schema({
     default: Date.now
   }
 });
+
+schema.plugin(uniqueValidator, {
+    message: 'Ошибка: {PATH} уже существует.' }
+);
 
 module.exports = mongoose.model('User', schema);
