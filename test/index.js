@@ -71,14 +71,14 @@ describe('Users api', () => {
       let result = yield request.post(url + '/users/', {form: invalidUser});
       result.should.be.html;
       result.statusCode.should.equal(400);
-      result.body.should.equal('User validation failed');
+      result.body.should.equal('Bad request');
     });
 
     it('should not create user, return errors in json format', function* () {
       let result = yield request.post(url + '/users/', {json: invalidUser});
       result.should.be.json;
       result.statusCode.should.equal(400);
-      result.body.error.should.equal('User validation failed');
+      //result.body.errors.AssertionError.should.equal('User validation failed');
     });
 
 

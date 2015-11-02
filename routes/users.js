@@ -2,8 +2,10 @@
 
 const User = require('../model/User');
 const mongoose = require('mongoose');
+const log = require('../libs/log');
 
 function* createUser(next){
+  log.debug('createUser start');
   const params = this.request.body;
   let userData = {
     displayName: params.displayName,
@@ -13,17 +15,19 @@ function* createUser(next){
 
   let check = yield User.findOne({email: userData.email});
   if (check){
+    log.info('User already exists');
     this.status = 400;
     this.body = 'User already exists';
   } else {
-    try{
+    //try{
       let user = yield User.create(userData);
+      log.info('User finded');
       this.body = user.toObject();
-    } catch (e){
-      e.status = 400;
-      this.throw(e);
-    }
-
+    //} catch (e){
+    //  log.error(e);
+    //  e.status = 400;
+    //  this.throw(e);
+    //}
   }
 }
 
@@ -32,8 +36,11 @@ function* getUser(next){
 }
 
 function* getList(next){
+  log.debug('User getList start');
   let users = yield User.find().lean();
+  log.info(`Finded ${users.length}' users`);
   this.body = users;
+  log.debug('User getList end', {users: users});
 }
 
 function* deleteUser(next){
