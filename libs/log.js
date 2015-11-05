@@ -42,7 +42,15 @@ if (process.env.NODE_ENV !== 'test'){
   transports.push(new (winston.transports.Console)({
     level: 'debug',
     handleExceptions: true,
-    formatter: formatter
+    formatter: formatter,
+    json: true
+  }));
+} else {
+  transports.push(new (winston.transports.Console)({
+    level: 'error',
+    handleExceptions: true,
+    formatter: formatter,
+    json: true
   }));
 }
 

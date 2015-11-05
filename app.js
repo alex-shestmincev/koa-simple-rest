@@ -11,7 +11,7 @@ var koa = require('koa');
 var app = koa();
 
 var config = require('config');
-
+app.keys = [config.secret];
 // keys for in-koa KeyGrip cookie signing (used in session, maybe other modules)
 app.keys = [config.secret];
 

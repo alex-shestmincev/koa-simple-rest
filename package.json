@@ -18,16 +18,21 @@
   "dependencies": {
     "co-busboy": "^1.3.1",
     "config": "^1.16.0",
+    "jade": "^1.11.0",
     "koa": "^1.1.1",
     "koa-bodyparser": "^2.0.1",
     "koa-favicon": "^1.2.0",
     "koa-generic-session": "^1.9.2",
     "koa-json": "^1.1.1",
     "koa-logger": "^1.3.0",
+    "koa-passport": "^1.2.0",
     "koa-router": "^5.2.3",
+    "koa-session-mongoose": "^0.5.2",
     "koa-static": "^1.5.1",
     "mongoose": "^4.2.3",
     "mongoose-unique-validator": "^0.6.0",
+    "passport": "^0.3.0",
+    "passport-local": "^1.0.0",
     "winston": "^2.0.0"
   },
   "devDependencies": {
